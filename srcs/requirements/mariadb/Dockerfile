@@ -1,14 +1,16 @@
-FROM debian:bullseye-slim # slim is a stripped down, lighter version of a debian image
+FROM debian:bookworm-slim
 
-RUN apt-get update -y && \ 
+RUN apt-get update -y && \
 	apt-get install -y mariadb-server
+RUN mkdir -p /run/mysqld && chown mysql:mysql /run/mysqld
 
 EXPOSE 3306
 
 COPY ./tools/mariadb.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/mariadb.sh
 
 COPY ./conf/mariadb-server.conf /etc/mysql/mariadb.conf.d/50-server.cnf
 
 ENTRYPOINT ["/usr/local/bin/mariadb.sh"]
 
-CMD ["mariadbd"]
+CMD ["mariadbd", "--user=mysql"]

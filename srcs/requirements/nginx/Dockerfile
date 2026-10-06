@@ -1,4 +1,4 @@
-FROM debian:bullseye-slim
+FROM debian:bookworm-slim
 
 RUN apt-get update -y && apt-get install -y nginx openssl && \
     mkdir -p /etc/nginx/ssl && \
@@ -10,4 +10,3 @@ RUN apt-get update -y && apt-get install -y nginx openssl && \
 COPY conf/default.conf /etc/nginx/sites-enabled/default
 
 CMD ["nginx", "-g", "daemon off;"]
-

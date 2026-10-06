@@ -1,16 +1,32 @@
 #!/bin/bash
 
-# if there is no volume, create one
-if [ ! -d "/var/lib/mysql/mysql" ]; then
-	mysql_install_db --user=mysql --datadir=/var/lib/mysql
+set -e
 
-# the variables used here are expanded to the values stored in .env
-mariadbd --user=mysql --datadir=/var/lib/mysql --bootstrap <<-EOF # bootstrap allows us to create default values in the db in a single execution
-	CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; 
-	CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';
-	GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%';
-	ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
-	FLUSH PRIVILEGES;
-	EOF
+db_password=$(cat /run/secrets/db_password)
+root_password=$(cat /run/secrets/db_root_password)
+
+mariadbd --user=mysql --skip-networking --socket=/run/mysqld/init.sock &
+server_pid=$!
+
+until mariadb-admin --socket=/run/mysqld/init.sock ping --silent; do
+	sleep 1
+done
+
+root_password_args=()
+if mariadb-admin --socket=/run/mysqld/init.sock -uroot -p"$root_password" ping --silent >/dev/null 2>&1; then
+	root_password_args=(-p"$root_password")
 fi
+
+mariadb --socket=/run/mysqld/init.sock -uroot "${root_password_args[@]}" <<-EOF
+	CREATE DATABASE IF NOT EXISTS \`$MYSQL_DATABASE\`;
+	CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$db_password';
+	ALTER USER '$MYSQL_USER'@'%' IDENTIFIED BY '$db_password';
+	GRANT ALL PRIVILEGES ON \`$MYSQL_DATABASE\`.* TO '$MYSQL_USER'@'%';
+	ALTER USER 'root'@'localhost' IDENTIFIED BY '$root_password';
+	FLUSH PRIVILEGES;
+EOF
+
+mariadb-admin --socket=/run/mysqld/init.sock -uroot -p"$root_password" shutdown
+wait "$server_pid"
+
 exec "$@"
