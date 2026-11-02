@@ -34,15 +34,20 @@ and MariaDB data are stored in separate named volumes backed by
 - A Linux virtual machine with Docker Engine and the Docker Compose plugin.
 - The `duandrad.42.fr` name mapped to the VM IP in `/etc/hosts`.
 
-Initialise the ignored local files and directories:
+Create the persistent-storage directories once:
+
+```sh
+sudo mkdir -p /home/duandrad/data/wordpress /home/duandrad/data/database
+```
+
+Create the ignored `srcs/.env` and `srcs/secrets/` files:
 
 ```sh
 make init
 ```
 
-This creates `srcs/.env`, `srcs/secrets/`, `/home/duandrad/data/wordpress`, and
-`/home/duandrad/data/database` only when they are missing. `make` runs `init`
-automatically.
+`make init` writes each file only when it is missing and never overwrites existing
+secrets.
 
 ### Build and run
 

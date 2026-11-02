@@ -4,7 +4,13 @@
 
 Use the required Linux VM and install Docker Engine with the Compose plugin.
 
-Initialise the local, ignored files and directories:
+Create the persistent-storage directories once:
+
+```sh
+sudo mkdir -p /home/duandrad/data/wordpress /home/duandrad/data/database
+```
+
+Create the local, ignored configuration files:
 
 ```sh
 make init
@@ -12,12 +18,10 @@ make init
 
 This creates, only when missing:
 
-- `/home/duandrad/data/wordpress`
-- `/home/duandrad/data/database`
 - `srcs/.env`
 - `srcs/secrets/*.txt`
 
-`make` runs `init` automatically, and `make init` never overwrites existing files.
+`make init` never overwrites existing files.
 
 The generated `srcs/.env` contains the non-secret values:
 
