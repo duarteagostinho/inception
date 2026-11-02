@@ -2,14 +2,24 @@
 
 ## Environment setup
 
-Use the required Linux VM and install Docker Engine with the Compose plugin. Create
-the persistent-storage directories:
+Use the required Linux VM and install Docker Engine with the Compose plugin.
+
+Initialise the local, ignored files and directories:
 
 ```sh
-sudo mkdir -p /home/duandrad/data/wordpress /home/duandrad/data/database
+make init
 ```
 
-Create `srcs/.env` with non-secret values:
+This creates, only when missing:
+
+- `/home/duandrad/data/wordpress`
+- `/home/duandrad/data/database`
+- `srcs/.env`
+- `srcs/secrets/*.txt`
+
+`make` runs `init` automatically, and `make init` never overwrites existing files.
+
+The generated `srcs/.env` contains the non-secret values:
 
 ```dotenv
 DOMAIN_NAME=duandrad.42.fr
@@ -21,17 +31,21 @@ WP_USER=author
 WP_USER_EMAIL=author@example.com
 ```
 
-Create these local, ignored secret files:
+The generated secret files are:
 
 ```text
-secrets/db_password.txt
-secrets/db_root_password.txt
-secrets/wp_admin_password.txt
-secrets/wp_user_password.txt
+srcs/secrets/db_password.txt
+srcs/secrets/db_root_password.txt
+srcs/secrets/wp_admin_password.txt
+srcs/secrets/wp_user_password.txt
 ```
 
 Each file must contain only its corresponding password. Passwords are deliberately
 not written into Dockerfiles, Compose environment values, or tracked documentation.
+
+If the database directory already contains data from a previous run, keep the
+original secret files. Newly generated passwords will not match that database;
+remove the data directories first if you want a fresh install.
 
 ## Build and launch
 
@@ -60,8 +74,11 @@ docker compose -f srcs/docker-compose.yml restart
 docker compose -f srcs/docker-compose.yml down
 ```
 
-Use `make clean` to remove named volumes, and `make fclean` to additionally prune
-unused Docker resources. These commands can destroy persistent application data.
+Use `make clean` to remove the containers and the Compose volume definitions.
+Because the volumes are bind-backed, the data under `/home/duandrad/data` is kept.
+`make fclean` additionally prunes unused Docker resources. To delete the persistent
+data itself, remove `/home/duandrad/data/wordpress` and `/home/duandrad/data/database`
+manually.
 
 ## Persistence
 

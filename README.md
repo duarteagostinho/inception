@@ -33,12 +33,16 @@ and MariaDB data are stored in separate named volumes backed by
 
 - A Linux virtual machine with Docker Engine and the Docker Compose plugin.
 - The `duandrad.42.fr` name mapped to the VM IP in `/etc/hosts`.
-- The directories `/home/duandrad/data/wordpress` and
-  `/home/duandrad/data/database`.
 
-The local `srcs/.env` and `secrets/` files are intentionally ignored by Git. Create
-them from the variable and secret names used in the Compose file before starting the
-project.
+Initialise the ignored local files and directories:
+
+```sh
+make init
+```
+
+This creates `srcs/.env`, `srcs/secrets/`, `/home/duandrad/data/wordpress`, and
+`/home/duandrad/data/database` only when they are missing. `make` runs `init`
+automatically.
 
 ### Build and run
 
@@ -52,7 +56,8 @@ Stop the containers without removing data:
 make down
 ```
 
-Remove containers and named volumes:
+Remove containers and the Compose volume definitions (bind-mounted data under
+`/home/duandrad/data` is kept):
 
 ```sh
 make clean

@@ -20,9 +20,9 @@ Stop the stack while preserving its data:
 make down
 ```
 
-To remove the containers and their named volumes, use `make clean`. This deletes
-the persistent database and website volume data, so use it only when a fresh
-installation is intended.
+To remove the containers and the Compose volume definitions, use `make clean`.
+The bind-mounted data under `/home/duandrad/data` is kept. Remove that directory
+manually only if a fresh installation is intended.
 
 ## Website and administration
 
@@ -41,10 +41,11 @@ The certificate is self-signed, so a browser warning is expected.
 
 ## Credentials
 
-Passwords are stored locally in the ignored `secrets/` directory and are mounted
-into the relevant containers at `/run/secrets`. Never commit those files. The
-administrator username is configured by `WP_ADMIN_USER` in `srcs/.env`; it is
-intentionally not named `admin` to satisfy the subject requirement.
+Passwords are stored locally in the ignored `srcs/secrets/` directory and are mounted
+into the relevant containers at `/run/secrets`. `make init` generates them and
+`srcs/.env` if they do not exist. Never commit those files. The administrator
+username is configured by `WP_ADMIN_USER` in `srcs/.env`; it is intentionally not
+named `admin` to satisfy the subject requirement.
 
 ## Health checks
 

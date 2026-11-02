@@ -1,3 +1,4 @@
 .env
 /secrets/
 /srcs/.env
+/srcs/secrets/
