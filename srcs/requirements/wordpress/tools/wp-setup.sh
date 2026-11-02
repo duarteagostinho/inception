@@ -2,9 +2,9 @@
 
 set -e
 
-db_password=$(cat /run/secrets/db_password)
-admin_password=$(cat /run/secrets/wp_admin_password)
-user_password=$(cat /run/secrets/wp_user_password)
+db_password=$(cat /run/secrets/db_password | tr -d '\n\r')
+admin_password=$(cat /run/secrets/wp_admin_password | tr -d '\n\r')
+user_password=$(cat /run/secrets/wp_user_password | tr -d '\n\r')
 
 if [ ! -f /var/www/html/wp-config.php ]; then
 	wp core download --path=/var/www/html --allow-root --force

@@ -73,6 +73,6 @@ administration panel is at `https://duandrad.42.fr/wp-admin/`.
 - [WP-CLI handbook](https://make.wordpress.org/cli/handbook/)
 - [MariaDB documentation](https://mariadb.com/kb/en/documentation/)
 
-AI was used to help inspect build failures, compare the implementation with the
-subject, identify configuration issues, and design verification commands. Every
-change is reviewed and tested against the subject requirements before submission.
+### AI usage
+
+AI was used to help draft the documentation.

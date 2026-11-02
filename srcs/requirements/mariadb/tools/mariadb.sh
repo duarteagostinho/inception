@@ -2,8 +2,8 @@
 
 set -e
 
-db_password=$(cat /run/secrets/db_password)
-root_password=$(cat /run/secrets/db_root_password)
+db_password=$(cat /run/secrets/db_password | tr -d '\n\r')
+root_password=$(cat /run/secrets/db_root_password | tr -d '\n\r')
 
 mariadbd --user=mysql --skip-networking --socket=/run/mysqld/init.sock &
 server_pid=$!

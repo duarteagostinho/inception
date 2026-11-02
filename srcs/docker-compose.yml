@@ -28,7 +28,7 @@ services:
       - inception
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "mariadb-admin ping -h localhost -u root -p\"$$(cat /run/secrets/db_root_password)\" --silent"]
+      test: ["CMD-SHELL", "mariadb-admin ping -h localhost -u root -p\"$$(cat /run/secrets/db_root_password | tr -d '\n\r')\" --silent"]
       interval: 5s
       timeout: 5s
       retries: 10
