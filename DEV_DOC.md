@@ -44,8 +44,9 @@ srcs/secrets/wp_admin_password.txt
 srcs/secrets/wp_user_password.txt
 ```
 
-Each file must contain only its corresponding password. Passwords are deliberately
-not written into Dockerfiles, Compose environment values, or tracked documentation.
+Each file must contain only its corresponding password. `make init` generates a
+random value for each file when it is missing. Passwords are deliberately not
+written into Dockerfiles, Compose environment values, or tracked documentation.
 
 If the database directory already contains data from a previous run, keep the
 original secret files. Newly generated passwords will not match that database;
