@@ -1,12 +1,16 @@
 FROM debian:bookworm-slim
 
 RUN apt-get update && apt-get install -y \
-	php8.2-fpm php8.2-mysql php8.2-mbstring php8.2-gd curl \
+	php8.2-fpm php8.2-mysql php8.2-mbstring php8.2-gd curl ca-certificates \
 	&& rm -rf /var/lib/apt/lists/*
 
-RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-	&& chmod +x wp-cli.phar \
-	&& mv wp-cli.phar /usr/local/bin/wp
+ARG WP_CLI_VERSION=2.11.0
+RUN set -eux; \
+	curl -fsSLO "https://github.com/wp-cli/wp-cli/releases/download/v${WP_CLI_VERSION}/wp-cli-${WP_CLI_VERSION}.phar"; \
+	curl -fsSLO "https://github.com/wp-cli/wp-cli/releases/download/v${WP_CLI_VERSION}/wp-cli-${WP_CLI_VERSION}.phar.sha512"; \
+	sha512sum -c "wp-cli-${WP_CLI_VERSION}.phar.sha512"; \
+	install -m 0755 "wp-cli-${WP_CLI_VERSION}.phar" /usr/local/bin/wp; \
+	rm -f "wp-cli-${WP_CLI_VERSION}.phar" "wp-cli-${WP_CLI_VERSION}.phar.sha512"
 
 RUN mkdir -p /run/php
 

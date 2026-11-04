@@ -42,8 +42,9 @@ The certificate is self-signed, so a browser warning is expected.
 ## Credentials
 
 Passwords are stored locally in the ignored `srcs/secrets/` directory and are mounted
-into the relevant containers at `/run/secrets`. `make init` generates them and
-`srcs/.env` if they do not exist. Never commit those files. The administrator
+into the relevant containers at `/run/secrets`. `make init` generates random password
+values for those files and creates `srcs/.env` if they do not exist. Never commit
+those files. The administrator
 username is configured by `WP_ADMIN_USER` in `srcs/.env`; it is intentionally not
 named `admin` to satisfy the subject requirement.
 

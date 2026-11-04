@@ -46,8 +46,8 @@ Create the ignored `srcs/.env` and `srcs/secrets/` files:
 make init
 ```
 
-`make init` writes each file only when it is missing and never overwrites existing
-secrets.
+`make init` writes each file only when it is missing, never overwrites existing
+secrets, and generates random password values for secret files.
 
 ### Build and run
 
