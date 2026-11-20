@@ -4,7 +4,7 @@ all:
 init:
 	@mkdir -p srcs/secrets
 	@[ -f srcs/.env ] || printf '%s\n' \
-		'DOMAIN_NAME=duandrad.42.fr' \
+		'DOMAIN_NAME=<username>.42.fr' \
 		'MYSQL_DATABASE=wordpress' \
 		'MYSQL_USER=wordpress' \
 		'WP_ADMIN_USER=siteowner' \

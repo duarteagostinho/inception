@@ -7,7 +7,7 @@ Use the required Linux VM and install Docker Engine with the Compose plugin.
 Create the persistent-storage directories once:
 
 ```sh
-sudo mkdir -p /home/duandrad/data/wordpress /home/duandrad/data/database
+sudo mkdir -p /home/<username>/data/wordpress /home/<username>/data/database
 ```
 
 Create the local, ignored configuration files:
@@ -26,7 +26,7 @@ This creates, only when missing:
 The generated `srcs/.env` contains the non-secret values:
 
 ```dotenv
-DOMAIN_NAME=duandrad.42.fr
+DOMAIN_NAME=<username>.42.fr
 MYSQL_DATABASE=wordpress
 MYSQL_USER=wordpress
 WP_ADMIN_USER=siteowner
@@ -80,9 +80,9 @@ docker compose -f srcs/docker-compose.yml down
 ```
 
 Use `make clean` to remove the containers and the Compose volume definitions.
-Because the volumes are bind-backed, the data under `/home/duandrad/data` is kept.
+Because the volumes are bind-backed, the data under `/home/<username>/data` is kept.
 `make fclean` additionally prunes unused Docker resources. To delete the persistent
-data itself, remove `/home/duandrad/data/wordpress` and `/home/duandrad/data/database`
+data itself, remove `/home/<username>/data/wordpress` and `/home/<username>/data/database`
 manually.
 
 ## Persistence
@@ -91,8 +91,8 @@ The `wp-data` volume stores `/var/www/html`; `mariadb-data` stores
 `/var/lib/mysql`. Their local driver options point to:
 
 ```text
-/home/duandrad/data/wordpress
-/home/duandrad/data/database
+/home/<username>/data/wordpress
+/home/<username>/data/database
 ```
 
 Inspect the mapping with:
@@ -112,7 +112,7 @@ Before submission, verify:
 ```sh
 docker compose -f srcs/docker-compose.yml config
 docker compose -f srcs/docker-compose.yml ps
-curl -k -I https://duandrad.42.fr/
+curl -k -I https://<username>.42.fr/
 ```
 
 Check that only Nginx publishes a host port, TLS is configured for 1.2/1.3, the

@@ -56,13 +56,13 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/duandrad/data/wordpress
+      device: /home/<username>/data/wordpress
       o: bind
   mariadb-data:
     driver: local
     driver_opts:
       type: none
-      device: /home/duandrad/data/database
+      device: /home/<username>/data/database
       o: bind
 
 secrets:

@@ -21,7 +21,7 @@ make down
 ```
 
 To remove the containers and the Compose volume definitions, use `make clean`.
-The bind-mounted data under `/home/duandrad/data` is kept. Remove that directory
+The bind-mounted data under `/home/<username>/data` is kept. Remove that directory
 manually only if a fresh installation is intended.
 
 ## Website and administration
@@ -29,13 +29,13 @@ manually only if a fresh installation is intended.
 Add the VM address to `/etc/hosts`:
 
 ```text
-<vm-ip> duandrad.42.fr
+<vm-ip> <username>.42.fr
 ```
 
 Visit:
 
-- Website: `https://duandrad.42.fr/`
-- Administration: `https://duandrad.42.fr/wp-admin/`
+- Website: `https://<username>.42.fr/`
+- Administration: `https://<username>.42.fr/wp-admin/`
 
 The certificate is self-signed, so a browser warning is expected.
 
@@ -66,5 +66,5 @@ docker compose -f srcs/docker-compose.yml logs --tail=100
 Confirm HTTPS responds:
 
 ```sh
-curl -k -I https://duandrad.42.fr/
+curl -k -I https://<username>.42.fr/
 ```

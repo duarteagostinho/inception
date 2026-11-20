@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by duandrad.*
+*This project has been created as part of the 42 curriculum by <username>.*
 
 # Inception
 
@@ -13,7 +13,7 @@ three dedicated services:
 
 The services communicate over a private Docker bridge network. The WordPress files
 and MariaDB data are stored in separate named volumes backed by
-`/home/duandrad/data` on the evaluation virtual machine.
+`/home/<username>/data` on the evaluation virtual machine.
 
 ### Design choices
 
@@ -32,12 +32,12 @@ and MariaDB data are stored in separate named volumes backed by
 ### Prerequisites
 
 - A Linux virtual machine with Docker Engine and the Docker Compose plugin.
-- The `duandrad.42.fr` name mapped to the VM IP in `/etc/hosts`.
+- The `<username>.42.fr` name mapped to the VM IP in `/etc/hosts`.
 
 Create the persistent-storage directories once:
 
 ```sh
-sudo mkdir -p /home/duandrad/data/wordpress /home/duandrad/data/database
+sudo mkdir -p /home/<username>/data/wordpress /home/<username>/data/database
 ```
 
 Create the ignored `srcs/.env` and `srcs/secrets/` files:
@@ -62,7 +62,7 @@ make down
 ```
 
 Remove containers and the Compose volume definitions (bind-mounted data under
-`/home/duandrad/data` is kept):
+`/home/<username>/data` is kept):
 
 ```sh
 make clean
@@ -70,8 +70,8 @@ make clean
 
 `make fclean` additionally removes unused Docker images and resources.
 
-Open `https://duandrad.42.fr/` after accepting the self-signed certificate. The
-administration panel is at `https://duandrad.42.fr/wp-admin/`.
+Open `https://<username>.42.fr/` after accepting the self-signed certificate. The
+administration panel is at `https://<username>.42.fr/wp-admin/`.
 
 ## Resources
 
